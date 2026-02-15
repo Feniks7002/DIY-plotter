@@ -1,12 +1,12 @@
 import math
-import tkinter as tk 
+import tkinter as tk
 import numpy as np
 import config
-from PIL import Image, ImageEnhance, ImageDraw
+from PIL import Image, ImageEnhance
 
-def image_handler(path, factor, max_w, max_h):
-    def contrast_enchance(img):
-        img_contrast_enchance = ImageEnhance.Contrast(img_gray)
+def image_handler(path, contrast_factor, max_w, max_h):
+    def contrast_enchance(img, factor):
+        img_contrast_enchance = ImageEnhance.Contrast(img)
         return img_contrast_enchance.enhance(factor)
     
     image = Image.open(path)
@@ -14,7 +14,7 @@ def image_handler(path, factor, max_w, max_h):
 
     img_gray = image.convert('L')
 
-    img_gray_enchanced = contrast_enchance(img_gray)    
+    img_gray_enchanced = contrast_enchance(img_gray, contrast_factor)    
     
     img_array = np.array(img_gray_enchanced)
     img_normalized = img_array / 255.0
@@ -23,13 +23,14 @@ def image_handler(path, factor, max_w, max_h):
 def amplitude_map(data, max_amp):
     return (1.0 - data) * max_amp
 
-def trajectory_math(amp_map, y_base, freq, line_spacing):
+def trajectory_math(amp_map, x_base, y_base, freq, line_spacing):
     trajectory = []
     for y_index in range(0, amp_map.shape[0], line_spacing):
         amplitudes = amp_map[y_index, :]
         line_points = []
         for x, amp in enumerate(amplitudes):
             y = y_base + math.sin(x * freq) * amp
+            x += x_base
             line_points.append((x, y))
         trajectory.append(line_points)
         y_base += line_spacing
@@ -49,8 +50,10 @@ def simulation(trajectory, w, h):
 
 
 
-converted_image_data = image_handler(config.IMG_PATH_L, config.CONTRAST_FACTOR, config.WORK_WIDTH, config.WORK_HEIGHT)
+converted_image_data = image_handler(config.IMG_PATH_E, config.CONTRAST_FACTOR, config.WORK_WIDTH, config.WORK_HEIGHT)
+
 amplitude = amplitude_map(converted_image_data, config.SINUS_MAX_AMPLITUDE)
-trajectory = trajectory_math(amplitude, config.Y_OFFSET, config.SINUS_FREQUENCY, config.LINE_SPACING)
+
+trajectory = trajectory_math(amplitude, config.X_OFFSET, config.Y_OFFSET, config.SINUS_FREQUENCY, config.LINE_SPACING)
 
 simulation(trajectory, config.WORK_WIDTH, config.WORK_HEIGHT)
