@@ -1,8 +1,9 @@
 import math
 
 class SinusEngine:
-    def __init__(self, screen_dimensions, image_data, sin_data, offset_data):
-        self.screen_width, self.screen_height = screen_dimensions
+    def __init__(self, image_data, workspace_dimensions, render_dimensions, sin_data, offset_data):
+        self.work_width, self.work_height = workspace_dimensions
+        self.render_width, self.render_height = render_dimensions
         self.img_data = image_data
         self.sin_amp, self.sin_freq, self.line_space = sin_data
         self.x_off, self.y_off = offset_data
@@ -23,7 +24,7 @@ class SinusEngine:
             trajectory.append(line_points)
             y_offset += self.line_space
         return trajectory
-
+    
     def normalize_trajectory(self, raw_trajectory):
         pot_x = [point[0] for vector in raw_trajectory for point in vector]
         pot_y = [point[1] for vector in raw_trajectory for point in vector]
@@ -34,8 +35,8 @@ class SinusEngine:
         source_width = max_x - min_x
         source_height = max_y - min_y
         
-        target_w = self.screen_width - self.x_off
-        target_h = self.screen_height - self.y_off
+        target_w = self.work_width
+        target_h = self.work_height
 
         if source_width != 0 and source_height != 0:
             scale_x = target_w / source_width
@@ -44,17 +45,23 @@ class SinusEngine:
         else:
             return raw_trajectory
 
-        normalized = []
-        for i in range(len(raw_trajectory)):
+        scaled_width = source_width * scale
+        scaled_height = source_height * scale
+
+        margin_x = (self.work_width - scaled_width) / 2
+        margin_y = (self.work_height - scaled_height) / 2
+
+        xy_mm = []
+        for line in raw_trajectory:
             line = []
-            for j in range(len(raw_trajectory[i])):
-                x_shifted = raw_trajectory[i][j][0] - min_x
-                y_shifted = raw_trajectory[i][j][1] - min_y
-                x_scaled = x_shifted * scale + self.x_off
-                y_scaled = y_shifted * scale + self.y_off
-                line.append((x_scaled, y_scaled))
-            normalized.append(line)
-        return normalized
+            for x, y in line:
+                x_shifted = x - min_x
+                y_shifted = y - min_y
+                x_scaled = x_shifted * scale + margin_x
+                y_scaled = y_shifted * scale + margin_y
+                line.append((x_scaled, y_scaled)) # x_mm, y_mm
+            xy_mm.append(line)
+        return xy_mm
     
     def txt_trajectory_test(self, raw_trajectory, trajectory):
         with open("results/trajectory_test.txt", "w") as file:
@@ -70,8 +77,8 @@ class SinusEngine:
 
         raw_trajectory = self.trajectory_math(amplitude, (self.x_off, self.y_off))
 
-        trajectory = self.normalize_trajectory(raw_trajectory)
+        trajectory_mm = self.normalize_trajectory(raw_trajectory)
 
-        self.txt_trajectory_test(raw_trajectory, trajectory)
+        self.txt_trajectory_test(raw_trajectory, trajectory_mm)
 
-        return trajectory
+        return (trajectory_mm, raw_trajectory)
