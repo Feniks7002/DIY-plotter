@@ -11,7 +11,7 @@ class SinusEngine:
     def calculate_amplitude_map(self):
         return (1.0 - self.img_data) * self.sin_amp
 
-    def trajectory_math(self, amplitude_map, offset):
+    def calculate_trajectory(self, amplitude_map, offset):
         trajectory = []
         x_offset, y_offset = offset
         for y_index in range(0, amplitude_map.shape[0], self.line_space):
@@ -24,8 +24,21 @@ class SinusEngine:
             trajectory.append(line_points)
             y_offset += self.line_space
         return trajectory
+
+    def run(self):
+        amplitude = self.calculate_amplitude_map()
+
+        raw_trajectory = self.calculate_trajectory(amplitude, (self.x_off, self.y_off))
+
+        return raw_trajectory
     
-    def normalize_trajectory(self, raw_trajectory):
+
+class TrajectoryNormalizer:
+    def __init__(self, raw_trajectory, workspace_dimensions):
+        self.trajectory = raw_trajectory
+        self.work_width, self.work_height = workspace_dimensions
+    
+    def normalize_trajectory_mm(self, raw_trajectory):
         pot_x = [point[0] for vector in raw_trajectory for point in vector]
         pot_y = [point[1] for vector in raw_trajectory for point in vector]
         
@@ -53,32 +66,39 @@ class SinusEngine:
 
         xy_mm = []
         for line in raw_trajectory:
-            line = []
+            single_line = []
             for x, y in line:
                 x_shifted = x - min_x
                 y_shifted = y - min_y
                 x_scaled = x_shifted * scale + margin_x
                 y_scaled = y_shifted * scale + margin_y
-                line.append((x_scaled, y_scaled)) # x_mm, y_mm
-            xy_mm.append(line)
+                single_line.append((x_scaled, y_scaled)) # x_mm, y_mm
+            xy_mm.append(single_line)
         return xy_mm
-    
-    def txt_trajectory_test(self, raw_trajectory, trajectory):
-        with open("results/trajectory_test.txt", "w") as file:
-            for i in raw_trajectory:
-                file.write(str(i))
-
-        with open("results/trajectory_norma_test.txt", "w") as file:
-            for i in trajectory:
-                file.write(str(i))
 
     def run(self):
-        amplitude = self.calculate_amplitude_map()
+        return self.normalize_trajectory_mm(self.trajectory)
 
-        raw_trajectory = self.trajectory_math(amplitude, (self.x_off, self.y_off))
 
-        trajectory_mm = self.normalize_trajectory(raw_trajectory)
+class StepsGenerator:
+    def __init__(self, trajectory, stepper_motor_data):
+        self.trajectory_mm = trajectory
+        self.steps_per_mm = stepper_motor_data
 
-        self.txt_trajectory_test(raw_trajectory, trajectory_mm)
+    def trajectory_steps(self, trajectory_mm):
+        steps = []
+        for line in trajectory_mm:
+            single_line = []
+            for x, y in line:
+                step_x = round(x * self.steps_per_mm)
+                step_y = round(y * self.steps_per_mm)
+                single_line.append((step_x, step_y))
+            steps.append(single_line)
 
-        return (trajectory_mm, raw_trajectory)
+        return steps
+    
+    def txt_file_write(self):
+        pass
+
+    def run(self):
+        pass
