@@ -76,8 +76,56 @@ class TrajectoryNormalizer:
             xy_mm.append(single_line)
         return xy_mm
 
+    def trajectory_reduction(self, trajectory_mm):
+        def find_max_distance(array):
+            # Funkcja pomocnicza szukająca w danej lini maksymalnego odchylenia od prostej przeprowadzonej przez środek sinusoidy 
+            x_start, y_start = array[0]
+            x_end, y_end = array[-1]
+            dx = x_end - x_start
+            dy = y_end - y_start
+
+            length = math.sqrt(dx**2 + dy**2)
+            if length == 0:
+                return (0, 0)
+
+            max_distance = 0
+            index_maxd = 0
+
+            for i in range(1,len(array)-1):
+                xp, yp = array[i]
+                d = abs(dx * (yp - y_start) - dy * (xp - x_start)) / length
+                if d > max_distance:
+                    max_distance = d
+                    index_maxd = i
+
+            return (max_distance, index_maxd)
+
+        def ramer_douglas_peucker_algoritm(points):
+            # Rekurencyjny algorytm dziel i zwyciężaj, mający na celu podzielić całą linię na mniejsze segmenty/zredukować ilość punktów, przez usunięcie tych, które są zbyt blisko siebie, tak aby przyspieszyć działnie plotera, ale by nie zatracić jakości. 
+            if len(points) < 3:
+                return points
+            
+            max_distance, index = find_max_distance(points)
+
+            if max_distance <= tolerance:
+                return [points[0], points[-1]]
+            else:
+                left = ramer_douglas_peucker_algoritm(points[:index+1:])
+                right = ramer_douglas_peucker_algoritm(points[index::])
+                return left[:-1] + right
+        
+        tolerance = 0.1
+        reduced_trajectory = []
+
+        for line in trajectory_mm:
+            new_line = ramer_douglas_peucker_algoritm(line)
+            reduced_trajectory.append(new_line)
+
+        return reduced_trajectory
+
     def run(self):
-        return self.normalize_trajectory_mm(self.trajectory)
+        trajectory_mm = self.normalize_trajectory_mm(self.trajectory)
+        return self.trajectory_reduction(trajectory_mm)
 
 
 class StepsGenerator:
