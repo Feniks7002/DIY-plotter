@@ -14,15 +14,31 @@ class SinusEngine:
     def calculate_trajectory(self, amplitude_map, offset):
         trajectory = []
         x_offset, y_offset = offset
-        for y_index in range(0, amplitude_map.shape[0], self.line_space):
+
+        for line_id, y_index in enumerate(range(0, amplitude_map.shape[0], self.line_space)):
+
             amplitudes = amplitude_map[y_index, :]
             line_points = []
-            for x, amp in enumerate(amplitudes):
+
+            if line_id % 2 != 0:
+                x_range = range(len(amplitudes))
+            else:
+                x_range = reversed(range(len(amplitudes)))
+
+            for x in x_range:
+                amp = amplitudes[x]
                 y = y_offset + math.sin(x * self.sin_freq) * amp
-                x += x_offset
-                line_points.append([x, y])
+                line_points.append([x + x_offset, y])
+
+            last_x, last_y = line_points[-1]
+            
+            if line_id != 0:
+                for i in range(1, self.line_space + 1):
+                    line_points.append([last_x, last_y - i])
+
             trajectory.append(line_points)
             y_offset += self.line_space
+
         return trajectory
 
     def run(self):
