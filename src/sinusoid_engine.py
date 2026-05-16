@@ -50,9 +50,10 @@ class SinusEngine:
     
 
 class TrajectoryNormalizer:
-    def __init__(self, raw_trajectory, workspace_dimensions):
+    def __init__(self, raw_trajectory, workspace_dimensions, space):
         self.trajectory = raw_trajectory
         self.work_width, self.work_height = workspace_dimensions
+        self.line_space = space
     
     def normalize_trajectory_mm(self, raw_trajectory):
         pot_x = [point[0] for vector in raw_trajectory for point in vector]
@@ -132,9 +133,25 @@ class TrajectoryNormalizer:
         
         tolerance = 0.1
         reduced_trajectory = []
+        snake_length = self.line_space
 
-        for line in trajectory_mm:
-            new_line = ramer_douglas_peucker_algoritm(line)
+        for line_id, line in enumerate(trajectory_mm):
+            if len(line) <= snake_length:
+                reduced_trajectory.append(line)
+                continue
+
+            if line_id % 2 == 0:
+                core = line[:-snake_length]
+                tail = line[-snake_length:]
+                reducted_core = ramer_douglas_peucker_algoritm(core)
+                new_line = reducted_core + tail
+            
+            else:
+                head = line[:snake_length]
+                core = line[snake_length:]
+                reducted_core = ramer_douglas_peucker_algoritm(core)
+                new_line = head + reducted_core
+            
             reduced_trajectory.append(new_line)
 
         return reduced_trajectory
@@ -161,8 +178,10 @@ class StepsGenerator:
 
         return steps
     
-    def txt_file_write(self):
-        pass
+    def txt_file_write(self, steps):
+        with open("results/arduino_data.txt", "w") as file:
+            for line in steps:
+                file.write(str(line) + "\n")
 
     def run(self):
-        pass
+        self.txt_file_write(self.trajectory_steps(self.trajectory_mm))

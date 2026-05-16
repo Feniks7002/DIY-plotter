@@ -8,7 +8,7 @@ def simulation(trajectory):
     simulation_instance.run()
 
 def main():
-    image_instance = ImageHandler(config.IMG_PATH_E, (config.RENDER_WIDTH, config.RENDER_HEIGHT), config.CONTRAST_FACTOR)
+    image_instance = ImageHandler(config.IMG_PATH_L, (config.RENDER_WIDTH, config.RENDER_HEIGHT), config.CONTRAST_FACTOR)
     
     image_processed = image_instance.image_processing()
 
@@ -18,11 +18,13 @@ def main():
     
     simulation(raw_trajectory)
 
-    trajectory_normalizer_instance = TrajectoryNormalizer(raw_trajectory, (config.WORK_WIDTH, config.WORK_HEIGHT))
+    trajectory_normalizer_instance = TrajectoryNormalizer(raw_trajectory, (config.WORK_WIDTH, config.WORK_HEIGHT), config.LINE_SPACING)
     
     full_trajectory = trajectory_normalizer_instance.run()
 
     step_generator_instance = StepsGenerator(full_trajectory, (config.STEPS_PER_MM))
+
+    step_generator_instance.run()
 
 if __name__ == "__main__":
     main()
