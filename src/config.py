@@ -1,3 +1,5 @@
+from pathlib import Path
+
 # Screen dimensions
 WORK_WIDTH = 180
 WORK_HEIGHT = 280
@@ -6,8 +8,10 @@ RENDER_WIDTH = WORK_WIDTH * 5
 RENDER_HEIGHT = WORK_HEIGHT * 5
 
 # Image Paths
-IMG_PATH_E = 'C:/Users/PC/Desktop/Projekty informatyka/Projekt DIY plotter/DIY-plotter/res/elon.png'
-IMG_PATH_L = 'C:/Users/PC/Desktop/Projekty informatyka/Projekt DIY plotter/DIY-plotter/res/lena.png'
+BASE_PATH = Path(__file__).resolve().parent.parent
+
+IMG_PATH_E = BASE_PATH / "assets" / "elon.png"
+IMG_PATH_L = BASE_PATH / "assets" / "lena.png"
 
 # Offsets
 LINE_SPACING = 5
