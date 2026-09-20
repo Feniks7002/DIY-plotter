@@ -15,12 +15,15 @@ class SinusEngine:
         trajectory = []
         x_offset, y_offset = offset
 
-        for line_id, y_index in enumerate(range(0, amplitude_map.shape[0], self.line_space)):
+        lines_range = range(0, amplitude_map.shape[0], self.line_space)
+        total_lines = len(lines_range)
+
+        for line_id, y_index in enumerate(lines_range):
 
             amplitudes = amplitude_map[y_index, :]
             line_points = []
 
-            if line_id % 2 != 0:
+            if line_id % 2 == 0:
                 x_range = range(len(amplitudes))
             else:
                 x_range = reversed(range(len(amplitudes)))
@@ -32,9 +35,9 @@ class SinusEngine:
 
             last_x, last_y = line_points[-1]
             
-            if line_id != 0:
+            if line_id < total_lines - 1:
                 for i in range(1, self.line_space + 1):
-                    line_points.append([last_x, last_y - i])
+                    line_points.append([last_x, last_y + i])
 
             trajectory.append(line_points)
             y_offset += self.line_space
@@ -135,23 +138,17 @@ class TrajectoryNormalizer:
         reduced_trajectory = []
         snake_length = self.line_space
 
-        for line_id, line in enumerate(trajectory_mm):
-            if len(line) <= snake_length:
-                reduced_trajectory.append(line)
-                continue
+        total_lines = len(trajectory_mm)
 
-            if line_id % 2 == 0:
+        for line_id, line in enumerate(trajectory_mm):
+            if line_id < total_lines - 1 and len(line) > snake_length:
                 core = line[:-snake_length]
                 tail = line[-snake_length:]
                 reducted_core = ramer_douglas_peucker_algoritm(core)
                 new_line = reducted_core + tail
-            
             else:
-                head = line[:snake_length]
-                core = line[snake_length:]
-                reducted_core = ramer_douglas_peucker_algoritm(core)
-                new_line = head + reducted_core
-            
+                new_line = ramer_douglas_peucker_algoritm(line)
+
             reduced_trajectory.append(new_line)
 
         return reduced_trajectory
