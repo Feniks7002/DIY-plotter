@@ -44,6 +44,15 @@ Z_DOWN = 0.0
 # Path to gcode file
 GCODE_PATH = BASE_PATH / "results" / "output.gcode"
 
+# Speed limits
+TRAVEL_SPEED = 3000
+DRAWING_SPEED = 1500
+
 # Arduino work space
 X_AXIS_STEPS = STEPS_PER_MM * WORK_WIDTH
 Y_AXIS_STEPS = STEPS_PER_MM * WORK_HEIGHT
+
+# UART communication
+SERIAL_PORT = "/dev/ttyACM0"
+BAUNDRATE = 115200
+SERIAL_TIMEOUT = 2

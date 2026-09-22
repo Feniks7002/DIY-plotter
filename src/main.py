@@ -20,8 +20,11 @@ def main():
     trajectory_normalizer_instance = TrajectoryNormalizer(raw_trajectory, (config.WORK_WIDTH, config.WORK_HEIGHT), config.LINE_SPACING)
     full_trajectory = trajectory_normalizer_instance.run()
 
-    gcode_instance = GCodeGenerator(full_trajectory, (config.Z_UP, config.Z_DOWN), config.GCODE_PATH)
+    gcode_instance = GCodeGenerator(full_trajectory, (config.Z_UP, config.Z_DOWN), config.GCODE_PATH, config.TRAVEL_SPEED, config.DRAWING_SPEED)
     gcode_generate = gcode_instance.run()
+
+    streamer_instace = GCodeStreamer(config.SERIAL_PORT, config.SERIAL_TIMEOUT, config.BAUNDRATE, config.GCODE_PATH)
+    steamer_instace.run()
 
 if __name__ == "__main__":
     main()

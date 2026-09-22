@@ -1,6 +1,6 @@
 
 class GCodeGenerator:
-    def __init__(self, trajectory_mm, z_positions, result_path, feedrate_travel=3000, feedrate_draw=1500):
+    def __init__(self, trajectory_mm, z_positions, result_path, feedrate_travel, feedrate_draw):
         self.trajectory_map = trajectory_mm
         self.f_travel = feedrate_travel
         self.f_draw = feedrate_draw
