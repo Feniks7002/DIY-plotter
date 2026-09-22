@@ -156,29 +156,3 @@ class TrajectoryNormalizer:
     def run(self):
         trajectory_mm = self.normalize_trajectory_mm(self.trajectory)
         return self.trajectory_reduction(trajectory_mm)
-
-
-class StepsGenerator:
-    def __init__(self, trajectory, stepper_motor_data):
-        self.trajectory_mm = trajectory
-        self.steps_per_mm = stepper_motor_data
-
-    def trajectory_steps(self, trajectory_mm):
-        steps = []
-        for line in trajectory_mm:
-            single_line = []
-            for x, y in line:
-                step_x = round(x * self.steps_per_mm)
-                step_y = round(y * self.steps_per_mm)
-                single_line.append((step_x, step_y))
-            steps.append(single_line)
-
-        return steps
-    
-    def txt_file_write(self, steps):
-        with open("results/arduino_data.txt", "w") as file:
-            for line in steps:
-                file.write(str(line) + "\n")
-
-    def run(self):
-        self.txt_file_write(self.trajectory_steps(self.trajectory_mm))
