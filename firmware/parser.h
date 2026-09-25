@@ -1,3 +1,4 @@
+// Początek
 #ifndef PARSER_H
 #define PARSER_H
 
@@ -11,19 +12,22 @@ struct GCodeStructure {
     bool has_x;         // Czy parametr X wystąpił w linii? (true / false)
     float x;            // Odczytana wartość osi X
     
-    bool has_y;         // Czy parametr Y wystąpił w linii?
+    bool has_y;
     float y;            // Odczytana wartość osi Y
     
-    bool has_z;         // Czy parametr Z wystąpił w linii?
+    bool has_z;
     float z;            // Odczytana wartość osi Z
     
-    bool has_f;         // Czy parametr prędkości F wystąpił w linii?
+    bool has_f;
     float f;            // Wartość posuwu (feedrate)
     
-    bool has_p;         // Czy parametr pauzy P wystąpił w linii? (dla G4 Dwell)
+    bool has_p;
     float p;            // Czas pauzy w sekundach
+
 };
 
-bool parse_gcode_line(const char* line, GCodeStructure& cmd)
+// Wywołanie funkcji bool która, przyjmuje i pracuje na strukturze GCodeStructure 
+bool parse_gcode_line(const char* line, GCodeStructure& cmd);
 
+// Koniec
 #endif
