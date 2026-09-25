@@ -2,8 +2,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <Arduino.h>
-
 // Struktura przechowująca sparsowane parametry polecenia G-code
 struct GCodeStructure {
     char type;          // Typ polecenia: 'G' lub 'M' (np. dla G1 -> 'G', dla M112 -> 'M')

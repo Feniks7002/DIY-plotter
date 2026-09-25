@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include "parser.h"
 #include <stdlib.h>
   
