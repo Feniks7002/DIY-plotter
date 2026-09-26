@@ -14,7 +14,7 @@ struct GCodeStructure {
     float y;            // Odczytana wartość osi Y
     
     bool has_z;
-    float z;            // Odczytana wartość osi Z
+    int z;            // Odczytana wartość osi Z
     
     bool has_f;
     float f;            // Wartość posuwu (feedrate)

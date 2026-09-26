@@ -65,6 +65,7 @@ bool parse_gcode_line(const char* line, GCodeStructure& cmd) {
 
     char param_letter;
     float value;
+    int value_z;
     char* end;
     const char* number_start;
     while (line[i] != '\0') {
@@ -76,7 +77,12 @@ bool parse_gcode_line(const char* line, GCodeStructure& cmd) {
             i++;
 
             number_start = &line[i];
-            value = strtod(number_start, &end);
+            if (param_letter != 'Z') {
+                value = strtod(number_start, &end);
+            } else {
+                value_z = strtod(number_start, &end);
+            }
+            
             
             if (end == number_start) {
                 return false;
@@ -96,7 +102,7 @@ bool parse_gcode_line(const char* line, GCodeStructure& cmd) {
                 break;
             case 'Z' :
                 cmd.has_z = true;
-                cmd.z = value;
+                cmd.z = value_z;
                 break;
             case 'F' :
                 cmd.has_f = true;

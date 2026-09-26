@@ -12,7 +12,7 @@ class GCodeGenerator:
             "; --- PREAMBLE ---",
             "G21 ; Millimeters",
             "G90 ; Absolute coordinates",
-            f"G00 Z{self.z_up:.2f} F{self.f_travel}"
+            f"G00 Z{self.z_up} F{self.f_travel}"
         ]
 
         if not self.trajectory_map or not self.trajectory_map[0]:
@@ -21,7 +21,7 @@ class GCodeGenerator:
         # Dojazd do pierwszego punktu
         first_x, first_y = self.trajectory_map[0][0]
         gcode.append(f"G00 X{first_x:.2f} Y{first_y:.2f}")
-        gcode.append(f"G01 Z{self.z_down:.2f} F{self.f_draw}")
+        gcode.append(f"G01 Z{self.z_down} F{self.f_draw}")
         gcode.append(f"G04 P0.2")
 
         # Rysowanie całej trajektorii
@@ -33,7 +33,7 @@ class GCodeGenerator:
         # Zakończenie pracy
         gcode.extend([
             "; --- POSTAMBLE ---",
-            f"G00 Z{self.z_up:.2f} F{self.f_travel}",
+            f"G00 Z{self.z_up} F{self.f_travel}",
             "G00 X0.00 Y0.00",
             "M02 ; End of program"
         ])

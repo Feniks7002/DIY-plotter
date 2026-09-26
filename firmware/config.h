@@ -15,7 +15,7 @@
 #define SERVO_PIN      11
 
 // --- KINEMATYKA I MECHANIKA ---
-// Silniki 200 kroków/obr, mikrokrok 1/2 (400 mikrokroków/obr), koło GT2 20T (skok 2mm -> 40mm/obr)
+// Silniki 200 kroków/obr, mikrokrok 1/16 (400 mikrokroków/obr), koło GT2 20T (skok 2mm -> 40mm/obr)
 #define STEPS_PER_MM   80.0f
 
 // Granice przestrzeni roboczej [mm]
@@ -27,8 +27,8 @@
 #define DEFAULT_FEEDRATE_TRAVEL 3000.0f
 
 // Pozycje pisaka (wysokość Z w mm lub kąt serwa)
-#define Z_PEN_UP       5.0f
-#define Z_PEN_DOWN     0.0f
+#define Z_PEN_UP       45
+#define Z_PEN_DOWN     0
 
 // --- BEZPIECZEŃSTWO I TIMINGI STEROWNIKÓW TMC2209 ---
 #define STEP_PULSE_DELAY_US    2    // Minimalny czas trwania impulsu STEP dla TMC2209 (min. 1-2 µs)

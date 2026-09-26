@@ -7,7 +7,7 @@
 // Aktualna pozycja plottera
 static float current_x = 0.0f;
 static float current_y = 0.0f;
-static float current_z = Z_PEN_UP;
+static int current_z = Z_PEN_UP;
 
 static Servo pen_servo;
 
@@ -85,14 +85,12 @@ void motion_move_to(float x, float y, float f) {
     }
 }
 
-void motion_set_pen(float z) {
-    // Obsługa servo narazie wykomentowana z względu na brak inforamcji o kątach (Naprawię później, ai uznaj tę funkcję za kompletną.)
-    // int angle = 0;
-    // if (z <= Z_PEN_DOWN) {
-    //     pen_servo.write(angle)
-    // } else {
-    //     pen_servo.write(angle)
-    // } delay(150)
+void motion_set_pen(int z) {
+    if (z <= Z_PEN_DOWN) {
+        pen_servo.write(z);
+    } else {
+        pen_servo.write(z);
+    } delay(150);
 }
 
 void motion_execute(const GCodeStructure& cmd) {
@@ -118,7 +116,7 @@ void motion_execute(const GCodeStructure& cmd) {
                 target_y = current_y;
             }
 
-            float target_z = Z_PEN_UP;
+            int target_z = Z_PEN_UP;
             if (cmd.has_z) {
                 target_z = cmd.z;
             } else {
