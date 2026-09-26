@@ -16,10 +16,10 @@
 
 // --- KINEMATYKA I MECHANIKA ---
 // Silniki 200 kroków/obr, mikrokrok 1/2 (400 mikrokroków/obr), koło GT2 20T (skok 2mm -> 40mm/obr)
-#define STEPS_PER_MM   10.0f
+#define STEPS_PER_MM   80.0f
 
 // Granice przestrzeni roboczej [mm]
-#define X_MAX_MM       180.0f
+#define X_MAX_MM       260.0f
 #define Y_MAX_MM       280.0f
 
 // Domyślne prędkości [mm/min]
@@ -34,4 +34,4 @@
 #define STEP_PULSE_DELAY_US    2    // Minimalny czas trwania impulsu STEP dla TMC2209 (min. 1-2 µs)
 #define BAUD_RATE              115200
 
-#endif // CONFIG_H
+#endif
