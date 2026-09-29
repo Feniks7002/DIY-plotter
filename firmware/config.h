@@ -27,7 +27,7 @@
 #define DEFAULT_FEEDRATE_TRAVEL 3000.0f
 
 // Pozycje pisaka (wysokość Z w mm lub kąt serwa)
-#define Z_PEN_UP       45
+#define Z_PEN_UP       90
 #define Z_PEN_DOWN     0
 
 // --- BEZPIECZEŃSTWO I TIMINGI STEROWNIKÓW TMC2209 ---

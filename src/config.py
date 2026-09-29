@@ -38,7 +38,7 @@ STEPS_PER_MM = STEPS_PER_MOD_RESOLUTION / (GEARWHEEL * GT2_TIMING_BELT_MM_TEETH)
 MECHANICAL_RESOLUTION_MM = 1 / STEPS_PER_MM # miara 1 kroku
 
 # Positions of Z-axis
-Z_UP = 45
+Z_UP = 90
 Z_DOWN = 0
 
 # Path to gcode file
