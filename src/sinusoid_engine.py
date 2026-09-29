@@ -82,7 +82,7 @@ class TrajectoryNormalizer:
         scaled_height = source_height * scale
 
         margin_x = (self.work_width - scaled_width) / 2
-        margin_y = (self.work_height - scaled_height) / 2
+        margin_y = 0
 
         xy_mm = []
         for line in raw_trajectory:

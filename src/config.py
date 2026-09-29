@@ -10,6 +10,7 @@ RENDER_HEIGHT = WORK_HEIGHT * 5
 # Image Paths
 BASE_PATH = Path(__file__).resolve().parent.parent
 
+IMG_PATH = BASE_PATH / "assets" / ""
 IMG_PATH_E = BASE_PATH / "assets" / "elon.png"
 IMG_PATH_L = BASE_PATH / "assets" / "lena.png"
 
@@ -55,4 +56,4 @@ Y_AXIS_STEPS = STEPS_PER_MM * WORK_HEIGHT
 # UART communication
 SERIAL_PORT = "/dev/ttyACM0"
 BAUNDRATE = 115200
-SERIAL_TIMEOUT = 2
+SERIAL_TIMEOUT = 5
