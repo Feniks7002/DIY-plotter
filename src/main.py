@@ -1,7 +1,8 @@
 from image_handler import ImageHandler
-from sinusoid_engine import SinusEngine, TrajectoryNormalizer, StepsGenerator
+from sinusoid_engine import SinusEngine, TrajectoryNormalizer
 from simulation import Simulation
 from gcode_generator import GCodeGenerator
+from streamer import GCodeStreamer
 import config
 
 def simulation(trajectory):
@@ -23,8 +24,8 @@ def main():
     gcode_instance = GCodeGenerator(full_trajectory, (config.Z_UP, config.Z_DOWN), config.GCODE_PATH, config.TRAVEL_SPEED, config.DRAWING_SPEED)
     gcode_generate = gcode_instance.run()
 
-    streamer_instace = GCodeStreamer(config.SERIAL_PORT, config.SERIAL_TIMEOUT, config.BAUNDRATE, config.GCODE_PATH)
-    steamer_instace.run()
+    streamer_instance = GCodeStreamer(config.SERIAL_PORT, config.SERIAL_TIMEOUT, config.BAUNDRATE, config.GCODE_PATH)
+    streamer_instance.run()
 
 if __name__ == "__main__":
     main()
