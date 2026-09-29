@@ -19,7 +19,7 @@
 #define STEPS_PER_MM   80.0f
 
 // Granice przestrzeni roboczej [mm]
-#define X_MAX_MM       260.0f
+#define X_MAX_MM       180.0f
 #define Y_MAX_MM       280.0f
 
 // Domyślne prędkości [mm/min]

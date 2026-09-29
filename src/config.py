@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Screen dimensions
-WORK_WIDTH = 260
+WORK_WIDTH = 180
 WORK_HEIGHT = 280
 
 RENDER_WIDTH = WORK_WIDTH * 5
