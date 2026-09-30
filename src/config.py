@@ -10,9 +10,7 @@ RENDER_HEIGHT = WORK_HEIGHT * 5
 # Image Paths
 BASE_PATH = Path(__file__).resolve().parent.parent
 
-IMG_PATH = BASE_PATH / "assets" / ""
-IMG_PATH_E = BASE_PATH / "assets" / "elon.png"
-IMG_PATH_L = BASE_PATH / "assets" / "lena.png"
+IMG_PATH = BASE_PATH / "assets" / "image.png"
 
 # Offsets
 LINE_SPACING = 5
