@@ -10,7 +10,7 @@ RENDER_HEIGHT = WORK_HEIGHT * 5
 # Image Paths
 BASE_PATH = Path(__file__).resolve().parent.parent
 
-IMG_PATH = BASE_PATH / "assets" / "image.png"
+IMG_PATH = BASE_PATH / "assets" / "image.jpg"
 
 # Offsets
 LINE_SPACING = 5
@@ -41,7 +41,7 @@ Z_UP = 120
 Z_DOWN = 0
 
 # Path to gcode file
-GCODE_PATH = BASE_PATH / "results" / "output.gcode"
+GCODE_PATH = BASE_PATH / "gcode" / "output.gcode"
 
 # Speed limits
 TRAVEL_SPEED = 3000

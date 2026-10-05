@@ -10,7 +10,7 @@ def simulation(trajectory):
     simulation_instance.run()
 
 def main():
-    image_instance = ImageHandler(config.IMG_PATH_L, (config.RENDER_WIDTH, config.RENDER_HEIGHT), config.CONTRAST_FACTOR)
+    image_instance = ImageHandler(config.IMG_PATH, (config.RENDER_WIDTH, config.RENDER_HEIGHT), config.CONTRAST_FACTOR)
     image_processed = image_instance.image_processing()
 
     engine_instance = SinusEngine(image_processed, (config.WORK_WIDTH, config.WORK_HEIGHT), (config.RENDER_WIDTH, config.RENDER_HEIGHT), (config.SINUS_MAX_AMPLITUDE, config.SINUS_FREQUENCY, config.LINE_SPACING), (config.X_OFFSET, config.Y_OFFSET))
