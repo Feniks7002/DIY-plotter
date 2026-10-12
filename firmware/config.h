@@ -30,8 +30,14 @@
 #define Z_PEN_UP       120
 #define Z_PEN_DOWN     0
 
-// --- BEZPIECZEŃSTWO I TIMINGI STEROWNIKÓW TMC2209 ---
+// --- BEZPIECZEŃSTWO --- 
+// Sterowniki TMC2209
 #define STEP_PULSE_DELAY_US    2    // Minimalny czas trwania impulsu STEP dla TMC2209 (min. 1-2 µs)
 #define BAUD_RATE              115200
+
+// Krańcówki
+#define ESWITCH_PIN_X 9
+#define ESWITCH_PIN_Y 10
+#define HOMING_OFFSET_MM 3
 
 #endif

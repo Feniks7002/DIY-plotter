@@ -3,6 +3,7 @@
 
 #include "motion.h"
 #include "config.h"
+#include "homing.h"
 
 // Aktualna pozycja plottera
 static float current_x = 0.0f;
@@ -22,6 +23,8 @@ void motion_init() {
     pinMode(Y_STEP_PIN, OUTPUT);
     pinMode(Y_DIR_PIN, OUTPUT);
     digitalWrite(Y_STEP_PIN, LOW);
+
+    homing_init();
 
     pen_servo.attach(SERVO_PIN);
 }
@@ -54,7 +57,7 @@ void motion_move_to(float x, float y, float f) {
     unsigned long steps_delay_us = 60000000UL / (f * STEPS_PER_MM);
 
     // Algorytm Bresenhama (Synchronizacja osi)
-    // Zamiast ruszać 1 potem 2 osią, algorytm synchronizuje ruch obu osi
+    // Zamiast ruszać 1 rusza 2 osiami na raz, algorytm synchronizuje ruch obu osi
     long more_steps = (steps_x > steps_y) ? steps_x : steps_y;
     long over_x = 0;
     long over_y = 0;
@@ -101,6 +104,14 @@ void motion_execute(const GCodeStructure& cmd) {
             return;
         }
     } else if (cmd.type == 'G') {
+        if (cmd.code == 28) {
+            if (homing()) {
+                current_x = 0.0f;
+                current_y = 0.0f;
+            } else {
+                motion_emergency_stop();
+            }
+        }
         if (cmd.code == 0 || cmd.code == 1) {
             float target_x = 0.0f;
             if (cmd.has_x) {

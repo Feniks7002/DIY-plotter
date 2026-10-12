@@ -12,7 +12,8 @@ class GCodeGenerator:
             "; --- PREAMBLE ---",
             "G21 ; Millimeters",
             "G90 ; Absolute coordinates",
-            f"G00 Z{self.z_up} F{self.f_travel}"
+            f"G00 Z{self.z_up} F{self.f_travel}",
+            "G28 ; Home all axes"
         ]
 
         if not self.trajectory_map or not self.trajectory_map[0]:

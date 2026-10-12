@@ -9,7 +9,7 @@ struct CommandPair {
 };
 
 const CommandPair supported_commands[] = {
-    {'G', 0}, {'G', 1}, {'G', 4}, {'G', 21}, {'G', 90},
+    {'G', 0}, {'G', 1}, {'G', 4}, {'G', 21}, {'G', 28}, {'G', 90},
     {'M', 2}, {'M', 112}
 };
 
