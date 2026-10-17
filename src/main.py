@@ -16,8 +16,10 @@ def main():
     engine_instance = SinusEngine(image_processed, (config.WORK_WIDTH, config.WORK_HEIGHT), (config.RENDER_WIDTH, config.RENDER_HEIGHT), (config.SINUS_MAX_AMPLITUDE, config.SINUS_FREQUENCY, config.LINE_SPACING), (config.X_OFFSET, config.Y_OFFSET))
     raw_trajectory = engine_instance.run()
     
-    simulation(raw_trajectory)
-
+    userinput = input("Simulation? (y/n): ")
+    if userinput.lower() == "y":
+        simulation(raw_trajectory)
+        
     trajectory_normalizer_instance = TrajectoryNormalizer(raw_trajectory, (config.WORK_WIDTH, config.WORK_HEIGHT), config.LINE_SPACING)
     full_trajectory = trajectory_normalizer_instance.run()
 
