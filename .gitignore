@@ -3,5 +3,4 @@ __pycache__/
 *.pyc
 .venv/
 .vscode/
-cad/
-!cad/*.FCStd
+cad/*.FCBak
