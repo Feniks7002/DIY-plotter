@@ -19,6 +19,11 @@ def main():
     userinput = input("Simulation? (y/n): ")
     if userinput.lower() == "y":
         simulation(raw_trajectory)
+
+    agreement = input("Do you want to generate GCode? (y/n): ")
+    if agreement.lower() == "n":
+        print("Exiting program.")
+        return 0
         
     trajectory_normalizer_instance = TrajectoryNormalizer(raw_trajectory, (config.WORK_WIDTH, config.WORK_HEIGHT), config.LINE_SPACING)
     full_trajectory = trajectory_normalizer_instance.run()

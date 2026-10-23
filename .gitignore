@@ -4,3 +4,4 @@ __pycache__/
 .venv/
 .vscode/
 cad/**/*.FCBak
+gcode/*.gcode
